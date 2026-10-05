@@ -1204,15 +1204,16 @@ try {
         json_response(["ok" => true]);
     }
 
+.
     /* Manager operations */
-    if ($route === "manager/profile" && $method === "GET") {
+     if ($route === "manager/profile" && $method === "GET") {
         $manager = require_login(["manager"]);
         $stmt = $pdo->prepare(
             "SELECT u.full_name,u.email,u.phone,mp.employee_code,mp.shift_name,a.shift_start,a.shift_end,l.name AS location_name FROM users u LEFT JOIN manager_profiles mp ON mp.user_id=u.id LEFT JOIN manager_location_assignments a ON a.manager_user_id=u.id LEFT JOIN parking_locations l ON l.id=a.location_id WHERE u.id=? ORDER BY a.is_primary DESC,a.id ASC LIMIT 1",
         );
         $stmt->execute([(int) $manager["id"]]);
         json_response(["ok" => true, "profile" => $stmt->fetch()]);
-    }
+    } 
     if ($route === "manager/profile" && $method === "PUT") {
         $manager = require_login(["manager"]);
         require_csrf();
